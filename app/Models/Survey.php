@@ -17,5 +17,13 @@ class Survey extends Model
         'created_at', 'updated_at'
     ];
     protected $casts = [
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
+        'is_anonymous' => 'boolean',
     ];
+
+    public function canBeDeletedBy(User $user): bool
+    {
+        return $user->isAdmin() || $this->user_id === $user->id;
+    }
 }
