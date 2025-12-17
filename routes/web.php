@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OrganizationController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -15,6 +16,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/organizations', [OrganizationController::class, 'index'])->name('organizations.index');
+
+    Route::get('/organization/switch/{organization}', [OrganizationController::class, 'switch'])->name('organization.switch');
+    Route::get('/organization/create', [OrganizationController::class, 'formView'])->name('organization.create');
+    Route::post('/organization/store', [OrganizationController::class, 'store'])->name('organization.store');
 });
 
 require __DIR__.'/auth.php';

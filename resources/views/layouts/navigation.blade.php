@@ -34,6 +34,15 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        @foreach(Auth::user()->organizations as $organization)
+                            <a href="{{ route('organization.switch', $organization) }}"
+                            @class([
+                                'flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150',
+                                'bg-red' => session('current_organization_id') === $organization->id])>
+                                {{ $organization->name }}
+                            </a>
+                        @endforeach
+
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
