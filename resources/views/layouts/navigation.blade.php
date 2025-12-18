@@ -34,7 +34,7 @@
                     </x-slot>
 
                     <x-slot name="content">
-                    @foreach(Auth::user()->organizations as $organization)
+                    @foreach(Auth::user()->getOrganizations() as $organization)
                         <a href="{{ route('organization.switch', $organization) }}"
 
                             @class([

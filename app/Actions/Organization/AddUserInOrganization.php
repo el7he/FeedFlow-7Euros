@@ -3,10 +3,11 @@ namespace App\Actions\Organization;
 
 use App\DTOs\OrganizationDTO;
 use App\DTOs\OrganizationMemberDTO;
+use App\DTOs\AddUserDTO;
 use Illuminate\Support\Facades\DB;
 use App\Models\OrganizationUser;
 
-final class StoreOrganizationMemberAction
+final class AddUserInOrganization
 {
     public function __construct() {}
 
@@ -16,12 +17,12 @@ final class StoreOrganizationMemberAction
      * @return OrganizationMemberDTO
      * @throws \Throwable
      */
-    public function handle(OrganizationMemberDTO $dto): OrganizationUser
+    public function handle(AddUserDTO $dto): OrganizationUser
     {
         return DB::transaction(function () use ($dto) {
             return OrganizationUser::create([
-                'organization_id'   => $dto->organization_id,
-                'user_id'           => auth()->id(),
+                'organization_id'   => $dto->organizationId,
+                'user_id'           => $dto->userId,
                 'role'              => 'member',
             ]);
         });

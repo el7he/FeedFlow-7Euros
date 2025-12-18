@@ -17,7 +17,7 @@ final class UpdateOrganizationAction
     public function handle(OrganizationDTO $dto): Organization
     {
         return DB::transaction(function () use ($dto) {
-            
+
             $organization = null;
 
             foreach (auth()->user()->organizations as $org) {
