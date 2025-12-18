@@ -34,6 +34,29 @@
                     </x-slot>
 
                     <x-slot name="content">
+                    @foreach(Auth::user()->getOrganizations() as $organization)
+                        <a href="{{ route('organization.switch', $organization) }}"
+
+                            @class([
+                                // La base commune (le socle de l'existence 🙂)
+                                'flex items-center px-4 py-2 text-sm rounded-lg transition-all duration-200 ease-in-out border-2',
+                                
+                                // L'ÉTAT ACTIF (Le roi de la base de données 👑)
+                                'flex items-center px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ease-in-out border-2'
+                                    => session('current_organization_id') === $organization->id,
+                                
+                                // L'ÉTAT INACTIF (Les esclaves du système 🙁)
+                                'bg-white text-gray-600 border-gray-100 hover:border-indigo-300 hover:bg-indigo-50' 
+                                    => session('current_organization_id') !== $organization->id,
+                            ])>
+                            @if(session('current_organization_id') === $organization->id)
+                                <span class="ml-2">🙂-</span>
+                            @endif
+
+                            {{ $organization->name }}
+                        </a>
+                    @endforeach
+
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>

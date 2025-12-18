@@ -4,10 +4,10 @@ namespace App\DTOs;
 
 use Illuminate\Http\Request;
 
-final class OrganizationDTO
+final class AddUserDTO
 {
     private function __construct(
-        public readonly string $name,
+        public readonly string $organizationId,
         public readonly int $userId,
     ) {}
 
@@ -16,8 +16,8 @@ final class OrganizationDTO
         // On prepare les données depuis la requête pour qu'elles soient utilisées dans 
 
         return new self(
-            name: $request->input('name'),
-            userId: auth()->id(),
+            organizationId: session('current_organization_id'),
+            userId: $request->input('id'),
         );
     }
 }

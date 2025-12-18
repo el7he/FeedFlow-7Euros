@@ -11,6 +11,26 @@ class DeleteOrganization extends FormRequest
      */
     public function authorize(): bool
     {
+        $user = auth()->user();
+
+        if ($user) {
+
+            $current_organization = session('current_organization_id');
+
+            if ($user->id === $current_organization) {
+                return true;
+            }
+
+            $adminRelation = \DB::table('organization_user')
+                ->where('organization_id', $current_organization)
+                ->where('user_id', $user->id)
+                ->where('role', 'admin')
+                ->first();
+
+            if ($adminRelation) {
+                return true;
+            }
+        }
         return false;
     }
 
